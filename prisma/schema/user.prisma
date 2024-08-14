@@ -1,0 +1,19 @@
+model User {
+    id               Int         @id @default(autoincrement())
+    firstName        String
+    lastName         String?
+    username         String      @unique
+    email            String
+    password         String
+    bio              String?
+    profilePicture   String?
+    registrationDate DateTime?
+    tokens           UserToken[] @relation(name: "owner")
+}
+
+model UserToken {
+    id          Int    @id @default(autoincrement())
+    latestNonce String
+    ownerId     Int
+    owner       User   @relation(name: "owner", fields: [ownerId], onUpdate: Cascade, onDelete: Cascade, references: [id])
+}
