@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
+  Req,
   Res,
 } from '@nestjs/common';
 import { UserService } from './services/user.service';
@@ -12,7 +14,7 @@ import { SignupDto } from './models/dto/signup.dto';
 import { UserDto } from './models/dto/user.dto';
 import { ErrorDto } from '../../util/error/error.dto';
 import { LoginDto } from './models/dto/login.dto';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @Controller('user')
 @ApiTags('User')
@@ -42,5 +44,12 @@ export class UserController {
     res.cookie('_at', accessToken, { httpOnly: true });
     res.cookie('_rt', refreshToken, { httpOnly: true });
     return user;
+  }
+
+  @Get('info')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({ status: 200, type: UserDto })
+  async info(@Req() req: Request) {
+    return req.user;
   }
 }

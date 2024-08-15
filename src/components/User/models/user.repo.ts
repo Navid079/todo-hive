@@ -67,4 +67,26 @@ export default class UserRepository {
 
     return plainToClass(UserDto, foundUser);
   }
+
+  async findUserByTokenId(id: number): Promise<UserDto | null> {
+    const userToken = await this.prismaService.userToken.findFirst({
+      where: { id },
+      include: { owner: true },
+    });
+
+    if (!userToken?.owner) return null;
+    const user = userToken.owner;
+
+    return plainToClass(UserDto, user);
+  }
+
+  async findUserById(id: number): Promise<UserDto | null> {
+    const foundUser = await this.prismaService.user.findFirst({
+      where: { id },
+    });
+
+    if (!foundUser) return null;
+
+    return plainToClass(UserDto, foundUser);
+  }
 }
