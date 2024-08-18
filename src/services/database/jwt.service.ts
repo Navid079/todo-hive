@@ -1,6 +1,6 @@
 import * as crypto from 'crypto';
 
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
 
@@ -76,6 +76,18 @@ export default class JwtService {
       }) as Record<string, unknown>;
 
       return [VerifyStatus.Expired, payload, refreshPayload];
+    }
+  }
+
+  decode(token: string): Record<string, unknown> {
+    try {
+      const secret = this.configService.get('JWT_SECRET');
+      return jwt.verify(token, secret, { ignoreExpiration: true }) as Record<
+        string,
+        unknown
+      >;
+    } catch (e) {
+      throw new UnauthorizedException('Invalid Token');
     }
   }
 }

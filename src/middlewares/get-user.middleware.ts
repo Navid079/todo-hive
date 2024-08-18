@@ -30,6 +30,7 @@ export default class GetUserMiddleware implements NestMiddleware {
         if (!user) return next();
 
         req.user = user;
+        req.tokenId = +payload.id;
         break;
       }
       case VerifyStatus.Expired: {
@@ -53,6 +54,7 @@ export default class GetUserMiddleware implements NestMiddleware {
 
         const user = await this.userRepository.findUserByTokenId(+tokenId);
         req.user = user;
+        req.tokenId = +tokenId;
         break;
       }
     }

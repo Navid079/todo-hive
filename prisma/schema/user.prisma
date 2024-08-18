@@ -1,19 +1,30 @@
 model User {
-    id               Int         @id @default(autoincrement())
+    // Primary Key
+    id Int @id @default(autoincrement())
+
+    // Properties
     firstName        String
     lastName         String?
-    username         String      @unique
+    username         String    @unique
     email            String
     password         String
     bio              String?
     profilePicture   String?
     registrationDate DateTime?
-    tokens           UserToken[] @relation(name: "owner")
+
+    // Relations
+    tokens UserToken[] @relation(name: "owner")
 }
 
 model UserToken {
-    id          Int    @id @default(autoincrement())
+    // Primary Key
+    id Int @id @default(autoincrement())
+
+    // Properties
     latestNonce String
-    ownerId     Int
-    owner       User   @relation(name: "owner", fields: [ownerId], onUpdate: Cascade, onDelete: Cascade, references: [id])
+    trusted     Boolean @default(false)
+
+    // Relations
+    ownerId Int
+    owner   User @relation(name: "owner", fields: [ownerId], onUpdate: Cascade, onDelete: Cascade, references: [id])
 }
