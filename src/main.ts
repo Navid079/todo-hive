@@ -15,6 +15,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
   app.useGlobalInterceptors(new RemoveExcluded());
-  await app.listen(3000);
+  await app.listen(5000);
 }
 bootstrap();
