@@ -33,6 +33,7 @@ export class UserModule implements NestModule {
       .exclude(
         { path: 'user/login', method: RequestMethod.POST },
         { path: 'user/signup', method: RequestMethod.POST },
+        { path: '*', method: RequestMethod.OPTIONS },
       )
       .forRoutes('user');
   }
