@@ -14,6 +14,7 @@ RUN npm install
 COPY . .
 
 # Step 7: Run Prisma migrations (optional, can also be done in docker-compose)
+RUN npx prisma migrate
 RUN npx prisma generate
 
 RUN npm run build
