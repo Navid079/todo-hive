@@ -6,6 +6,7 @@ import { RemoveExcluded } from './util/interceptors/remove-excluded';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   const config = new DocumentBuilder()
     .setTitle('Todo Hive')
