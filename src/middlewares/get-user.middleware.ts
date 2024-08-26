@@ -49,7 +49,7 @@ export default class GetUserMiddleware implements NestMiddleware {
           tokenId.toString() + '#' + newNonce + '#' + new Date().toISOString(),
         );
 
-        res.cookie('_at', accessToken, { httpOnly: true });
+        res.cookie('_at', accessToken, { httpOnly: false });
         res.cookie('_rt', refreshToken, { httpOnly: true });
 
         const user = await this.userRepository.findUserByTokenId(+tokenId);
