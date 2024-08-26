@@ -51,7 +51,7 @@ export class UserController {
     const { user, accessToken, refreshToken } =
       await this.userService.loginUser(body);
 
-    res.cookie('_at', accessToken, { httpOnly: true });
+    res.cookie('_at', accessToken, { httpOnly: false });
     res.cookie('_rt', refreshToken, { httpOnly: true });
     return user;
   }
