@@ -19,6 +19,7 @@ import { LoginDto } from './models/dto/login.dto';
 import { Request, Response } from 'express';
 import CodeDto from '../../shared/model/dto/code.dto';
 import IdDto from '../../shared/model/dto/id.dto';
+import { LoginResponseDto } from './models/dto/login-res.dto';
 
 @Controller('user')
 @ApiTags('User')
@@ -41,19 +42,19 @@ export class UserController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  @ApiResponse({ status: 200, type: UserDto })
+  @ApiResponse({ status: 200, type: LoginResponseDto })
   @ApiResponse({ status: 404, type: ErrorDto })
   @ApiResponse({ status: 401, type: ErrorDto })
   async login(
     @Body() body: LoginDto,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<UserDto> {
+  ): Promise<LoginResponseDto> {
     const { user, accessToken, refreshToken } =
       await this.userService.loginUser(body);
 
     res.cookie('_at', accessToken, { httpOnly: false });
     res.cookie('_rt', refreshToken, { httpOnly: true });
-    return user;
+    return { user, accessToken, refreshToken };
   }
 
   @Get('info')
